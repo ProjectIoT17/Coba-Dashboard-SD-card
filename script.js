@@ -1,5 +1,6 @@
-const client = mqtt.connect("wss://aa6a9d81bddf4c58a5260ba0024532a4.s1.eu.hivemq.cloud:8884/mqtt// ===== MQTT CONFIG =====
+// ===== MQTT CONFIG =====
 const broker = "wss://aa6a9d81bddf4c58a5260ba0024532a4.s1.eu.hivemq.cloud:8884/mqtt";
+
 const options = {
   username: "Coba_SDCard",
   password: "Cobasd1244*"
@@ -14,17 +15,17 @@ const statusEl = document.getElementById("status");
 let dataChart = [];
 let labelChart = [];
 
-const ctx = document.getElementById('chart').getContext('2d');
+const ctx = document.getElementById("chart").getContext("2d");
 
 const chart = new Chart(ctx, {
-  type: 'line',
+  type: "line",
   data: {
     labels: labelChart,
     datasets: [{
-      label: 'Kelembapan (%)',
+      label: "Kelembapan (%)",
       data: dataChart,
-      borderColor: '#22c55e',
-      backgroundColor: 'rgba(34,197,94,0.2)',
+      borderColor: "#22c55e",
+      backgroundColor: "rgba(34,197,94,0.2)",
       tension: 0.3
     }]
   },
@@ -44,76 +45,36 @@ client.on("connect", () => {
   console.log("MQTT Connected");
   statusEl.innerText = "Connected";
   statusEl.style.background = "green";
-
   client.subscribe("soil/data");
 });
 
-client.on("error", () => {
+client.on("error", (err) => {
+  console.log("MQTT Error:", err);
   statusEl.innerText = "Error";
   statusEl.style.background = "red";
 });
 
 client.on("message", (topic, message) => {
-  let data = JSON.parse(message.toString());
+  try {
+    let data = JSON.parse(message.toString());
 
-  let moisture = data.moisture;
-  let time = new Date().toLocaleTimeString();
+    let moisture = data.moisture;
+    let time = new Date().toLocaleTimeString();
 
-  document.getElementById("moisture").innerText = moisture + " %";
-  document.getElementById("time").innerText = "Update: " + time;
+    document.getElementById("moisture").innerText = moisture + " %";
+    document.getElementById("time").innerText = "Update: " + time;
 
-  // update chart
-  dataChart.push(moisture);
-  labelChart.push(time);
+    dataChart.push(moisture);
+    labelChart.push(time);
 
-  if (dataChart.length > 20) {
-    dataChart.shift();
-    labelChart.shift();
-  }
-
-  chart.update();
-});");
-
-let dataChart = [];
-let labelChart = [];
-
-const ctx = document.getElementById('chart').getContext('2d');
-
-const chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: labelChart,
-    datasets: [{
-      label: 'Kelembapan (%)',
-      data: dataChart,
-      borderWidth: 2
-    }]
-  },
-  options: {
-    scales: {
-      y: { beginAtZero: true, max: 100 }
+    if (dataChart.length > 20) {
+      dataChart.shift();
+      labelChart.shift();
     }
+
+    chart.update();
+
+  } catch (e) {
+    console.log("JSON Error:", e);
   }
-});
-
-client.on("connect", () => {
-  console.log("Connected MQTT");
-  client.subscribe("soil/data");
-});
-
-client.on("message", (topic, message) => {
-  let data = JSON.parse(message.toString());
-
-  document.getElementById("moisture").innerText = data.moisture + " %";
-  document.getElementById("time").innerText = "Time: " + data.time + " s";
-
-  dataChart.push(data.moisture);
-  labelChart.push(data.time);
-
-  if (dataChart.length > 20) {
-    dataChart.shift();
-    labelChart.shift();
-  }
-
-  chart.update();
 });
