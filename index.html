@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soil Monitoring Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>🌱 Soil Moisture Monitoring</h1>
+
+  <div class="status" id="status">Disconnected</div>
+
+  <div class="card">
+    <h2>Kelembapan Tanah</h2>
+    <div class="value" id="moisture">0 %</div>
+    <div class="time" id="time">Time: -</div>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

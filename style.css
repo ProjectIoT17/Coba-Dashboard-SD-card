@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+.status {
+  margin-bottom: 20px;
+  padding: 8px;
+  border-radius: 10px;
+  display: inline-block;
+  background: red;
+}
+
+.card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 20px;
+  margin: 20px auto;
+  width: 300px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.value {
+  font-size: 50px;
+  margin: 10px 0;
+  color: #22c55e;
+}
+
+.time {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.chart-container {
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+}
